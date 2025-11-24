@@ -1,7 +1,7 @@
-package com.proyecto.braingasha.auth.service;
+package com.pokegacha.main.service;
 
-import com.proyecto.braingasha.auth.model.User;
-import com.proyecto.braingasha.auth.repository.UserRepository;
+import com.pokegacha.main.model.User;
+import com.pokegacha.main.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.Optional;
