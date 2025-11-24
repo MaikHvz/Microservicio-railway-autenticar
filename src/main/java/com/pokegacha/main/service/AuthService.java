@@ -3,13 +3,12 @@ package com.pokegacha.main.service;
 import com.pokegacha.main.model.User;
 import com.pokegacha.main.repository.UserRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.mindrot.jbcrypt.BCrypt;
 import java.util.Optional;
 
 @Service
 public class AuthService {
     private final UserRepository repo;
-    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     public AuthService(UserRepository repo) { this.repo = repo; }
 
@@ -17,7 +16,7 @@ public class AuthService {
         if (repo.existsByEmail(user.getEmail())) {
             return "EMAIL_EXISTS";
         }
-        user.setPassword(encoder.encode(user.getPassword()));
+        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
         user.setCoins(1000);
         user.setTotalCartas(0);
         user.setTotalTiradas(0);
@@ -29,7 +28,7 @@ public class AuthService {
     public Optional<User> login(String email, String rawPassword) {
         Optional<User> u = repo.findByEmail(email);
         if (u.isEmpty()) return Optional.empty();
-        if (encoder.matches(rawPassword, u.get().getPassword())) return u;
+        if (BCrypt.checkpw(rawPassword, u.get().getPassword())) return u;
         return Optional.empty();
     }
 }
