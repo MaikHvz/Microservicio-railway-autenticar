@@ -1,5 +1,0 @@
-[phases.build]
-cmd = "mvn -B -DskipTests clean package"
-
-[phases.start]
-cmd = "java -jar target/main-0.0.1-SNAPSHOT.jar"
